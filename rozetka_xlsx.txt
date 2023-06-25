@@ -1,21 +1,20 @@
 import json
 from openpyxl import Workbook
+# pip install openxl
 
-# book = openpyxl.Workbook()
-# sheet = book.active
 with open('rozetka_parser1_laptop.json', encoding='utf-8') as file:
     data = json.load(file)
 
 workbook = Workbook()
 worksheet = workbook.active
 worksheet.title = 'LAPTOP'
-# Запись заголовков
+
 worksheet['A1'] = 'Name'
 worksheet['B1'] = 'Price'
 worksheet['C1'] = 'Reviews'
 worksheet['D1'] = 'Link'
 
-# Запись данных в файл Excel
+
 row = 2
 
 for item in data:

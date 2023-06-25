@@ -1,0 +1,39 @@
+import json
+from bs4 import BeautifulSoup
+import requests
+# pip install BeautifulSoup4
+# pip install requests
+print('Start')
+def parser_roz():
+    laptop = []
+
+    for i in range(1,68):
+
+        url = f'https://rozetka.com.ua/notebooks/c80004/page={i}/'
+
+        resp = requests.get(url)
+
+        soup = BeautifulSoup(resp.text, 'lxml')
+
+        rozetka = soup.find_all('ul', class_='catalog-grid ng-star-inserted')
+
+
+        for roz in rozetka:
+
+            prices = roz.find_all('span', class_='goods-tile__price-value')
+            names = roz.find_all('span', class_='goods-tile__title')
+            link = roz.find_all('a', class_='goods-tile__heading ng-star-inserted')
+            reviews = roz.find_all('span',class_='goods-tile__reviews-link')
+            for name, price, item3,rev in zip(names, prices, link,reviews):
+                link = item3.get('href')
+                laptop.append({
+                    'Name: ': name.text.strip(),
+                    'Price: ': price.text.replace(' ', '').strip(),
+                    'Reviews: ': rev.text.strip(),
+                    'Link: ': link
+                })
+
+    with open('rozetka_parser1_laptop.json', 'a', encoding='utf-8') as file:
+        json.dump(laptop, file, indent=4, ensure_ascii=False)
+print('Finish')
+parser_roz()

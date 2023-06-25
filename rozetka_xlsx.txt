@@ -1,0 +1,33 @@
+import json
+from openpyxl import Workbook
+
+# book = openpyxl.Workbook()
+# sheet = book.active
+with open('rozetka_parser1_laptop.json', encoding='utf-8') as file:
+    data = json.load(file)
+
+workbook = Workbook()
+worksheet = workbook.active
+worksheet.title = 'LAPTOP'
+# Запись заголовков
+worksheet['A1'] = 'Name'
+worksheet['B1'] = 'Price'
+worksheet['C1'] = 'Reviews'
+worksheet['D1'] = 'Link'
+
+# Запись данных в файл Excel
+row = 2
+
+for item in data:
+    worksheet.cell(row=row, column=1, value=item['Name: '])
+    worksheet.cell(row=row, column=2, value=item['Price: '])
+    worksheet.cell(row=row, column=3, value=item['Reviews: '])
+    worksheet.cell(row=row, column=4, value=item['Link: '])
+    row += 1
+
+worksheet.column_dimensions['A'].width = 172
+worksheet.column_dimensions['B'].width = 10
+worksheet.column_dimensions['C'].width = 12
+worksheet.column_dimensions['D'].width = 85
+
+workbook.save('rozetka.xlsx')

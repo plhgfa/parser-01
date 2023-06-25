@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 # pip install BeautifulSoup4
 # pip install requests
+# pip install lxml
 print('Start')
 def parser_roz():
     laptop = []
